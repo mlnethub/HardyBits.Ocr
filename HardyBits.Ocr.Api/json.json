@@ -1,0 +1,117 @@
+{
+  "file": {
+    "name": "filename",
+    "extension": "jpg",
+    "mimeType": "image/jpeg",
+    "data": "base64=="
+  },
+  "engine": {
+    "language": "eng",
+    "mode": "TesseractAndCube"
+  },
+  "preprocessors": [
+    {
+      "type": "deskew",
+      "method": "leptonica",
+      "parameters": {
+        "searchReductionFactor": 4,
+        "binarizeThreshold": 130,
+        "screwSweep": {
+          "reduction": 4,
+          "range": 7.0,
+          "delta": 1.0
+        }
+      }
+    },
+    {
+      "type": "binarize",
+      "method": "leptonicaOtsuAdaptiveThreshold",
+      "parameters": {
+        "tileX": 16,
+        "tileY": 16,
+        "smoothX": 1,
+        "smoothY": 1,
+        "scoreFraction": 0.1
+      }
+    },
+    {
+      "type": "binarize",
+      "method": "leptonicaSauvola",
+      "parameters": {
+        "windowHalfWidth": 2,
+        "thresholdReducingFactor": 0.1,
+        "addBorder": false
+      }
+    },
+    {
+      "type": "binarize",
+      "method": "leptonicaSauvolaTiled",
+      "parameters": {
+        "windowHalfWidth": 2,
+        "thresholdReducingFactor": 0.1,
+        "numberOfTitlesX": 10,
+        "numberOfTitlesY": 10
+      }
+    },
+    {
+      "type": "grayscale",
+      "method": "leptonica",
+      "parameters": {
+        "redWeight": 0.33,
+        "greenWeight": 0.33,
+        "blueWeight": 0.33
+      }
+    },
+    {
+      "type": "denoise",
+      "parameters": {
+        "method": "mean",
+        "iterationCount": 1,
+        "windowBorderSize": 1
+      }
+    },
+    {
+      "type": "denoise",
+      "method": "median",
+      "parameters": {
+        "iterationCount": 1,
+        "windowBorderSize": 1
+      }
+    },
+    {
+      "type": "rescale",
+      "method": "factorBased",
+      "parameters": {
+        "scaleX": 1,
+        "scaleY": 1
+      }
+    },
+    {
+      "type": "rescale",
+      "method": "pixelBased",
+      "parameters": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "type": "rescale",
+      "method": "letterSize",
+      "parameters": {
+        "letterSize": 31
+      }
+    },
+    {
+      "type": "invertColors",
+      "method": "default",
+      "parameters": {
+      }
+    },
+    {
+      "type": "removeBorders",
+      "method": "default",
+      "parameters": {
+      }
+    }
+  ]
+}

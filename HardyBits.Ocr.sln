@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HardyBits.Ocr.Api", "HardyBits.Ocr.Api\HardyBits.Ocr.Api.csproj", "{8D190A16-7674-44A5-8ECF-79FA33754077}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HardyBits.Ocr.Engine", "HardyBits.Ocr.Engine\HardyBits.Ocr.Engine.csproj", "{97C6713C-835B-4D42-B6A5-D5768E2C4885}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HardyBits.Ocr.Samples.Console", "HardyBits.Ocr.Samples.Console\HardyBits.Ocr.Samples.Console.csproj", "{2E963256-4C1B-45D4-961A-364A36FC9211}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HardyBits.Wrappers.Leptonica", "HardyBits.Wrappers.Leptonica\HardyBits.Wrappers.Leptonica.csproj", "{1027FAAC-9696-4B6E-9993-84D123DBF929}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HardyBits.Wrappers.Tesseract", "HardyBits.Wrappers.Tesseract\HardyBits.Wrappers.Tesseract.csproj", "{021FF3BD-C7CC-4124-987F-94AAFA9AD59B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{EDB06994-677A-426B-A699-1E4DEAAFC725}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8D190A16-7674-44A5-8ECF-79FA33754077}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D190A16-7674-44A5-8ECF-79FA33754077}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D190A16-7674-44A5-8ECF-79FA33754077}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D190A16-7674-44A5-8ECF-79FA33754077}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97C6713C-835B-4D42-B6A5-D5768E2C4885}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97C6713C-835B-4D42-B6A5-D5768E2C4885}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97C6713C-835B-4D42-B6A5-D5768E2C4885}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97C6713C-835B-4D42-B6A5-D5768E2C4885}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E963256-4C1B-45D4-961A-364A36FC9211}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E963256-4C1B-45D4-961A-364A36FC9211}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E963256-4C1B-45D4-961A-364A36FC9211}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E963256-4C1B-45D4-961A-364A36FC9211}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1027FAAC-9696-4B6E-9993-84D123DBF929}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1027FAAC-9696-4B6E-9993-84D123DBF929}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1027FAAC-9696-4B6E-9993-84D123DBF929}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1027FAAC-9696-4B6E-9993-84D123DBF929}.Release|Any CPU.Build.0 = Release|Any CPU
+		{021FF3BD-C7CC-4124-987F-94AAFA9AD59B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{021FF3BD-C7CC-4124-987F-94AAFA9AD59B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{021FF3BD-C7CC-4124-987F-94AAFA9AD59B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{021FF3BD-C7CC-4124-987F-94AAFA9AD59B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2E963256-4C1B-45D4-961A-364A36FC9211} = {EDB06994-677A-426B-A699-1E4DEAAFC725}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CADC67C3-2903-4146-9A7A-B714434D5079}
+	EndGlobalSection
+EndGlobal

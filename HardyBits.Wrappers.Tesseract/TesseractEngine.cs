@@ -8,7 +8,7 @@ using HardyBits.Wrappers.Tesseract.Imports;
 
 namespace HardyBits.Wrappers.Tesseract
 {
-  public class TesseractEngine : IDisposable
+  public class TesseractEngine : ITesseractEngine
   {
     private int _processCount;
     private HandleRef _handle;

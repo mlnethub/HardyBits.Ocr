@@ -2,8 +2,8 @@
 using System.IO;
 using System.Reflection;
 using HardyBits.Wrappers.Leptonica;
-using HardyBits.Wrappers.Tesseract.Tesseract;
-using HardyBits.Wrappers.Tesseract.Tesseract.Enums;
+using HardyBits.Wrappers.Tesseract;
+using HardyBits.Wrappers.Tesseract.Enums;
 
 namespace HardyBits.Ocr.Samples.Console
 {
@@ -25,10 +25,10 @@ namespace HardyBits.Ocr.Samples.Console
         var tessDataPath = $@"{location}\libs\tessdata";
         using var engine = new TesseractEngine(tessDataPath, "eng", EngineMode.Default);
         using var img = new Pix(testImagePath);
-        using var page = engine.Process(img);
-        var text = page.GetText();
+        var result = engine.Process(img);
 
-        System.Console.WriteLine(text);
+        System.Console.WriteLine(result.Text);
+        System.Console.WriteLine(result.HocrText);
         System.Console.ReadLine();
       }
       catch (Exception ex)

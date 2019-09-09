@@ -6,8 +6,11 @@
     "data": "base64=="
   },
   "engine": {
-    "language": "eng",
-    "mode": "TesseractAndCube"
+    "type": "tesseract4",
+    "parameters": {
+      "language": "eng",
+      "mode": "TesseractAndCube"
+    }
   },
   "preprocessors": [
     {

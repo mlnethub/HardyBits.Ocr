@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HardyBits.Wrappers.Tesseract.Tesseract
+namespace HardyBits.Wrappers.Tesseract
 {
   public class TesseractException : Exception
   {

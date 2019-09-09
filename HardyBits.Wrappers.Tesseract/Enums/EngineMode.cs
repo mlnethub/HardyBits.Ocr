@@ -1,4 +1,4 @@
-﻿namespace HardyBits.Wrappers.Tesseract.Tesseract.Enums
+﻿namespace HardyBits.Wrappers.Tesseract.Enums
 {
   public enum EngineMode
   {

@@ -2,7 +2,7 @@
 .NET OCR Engine using Tesseract 4 Wrapper
 
 ## Dependencies
-Project in this repository depend on:
+Projects in this repository depend on:
 * <a href="https://github.com/tesseract-ocr/tesseract">Tesseract OCR 4</a> - OCR engine - under Apache License 2.0
 * <a href="https://github.com/danbloomberg/leptonica">Leptonica</a> - image manipulation library - under BSD 2-clause license
 

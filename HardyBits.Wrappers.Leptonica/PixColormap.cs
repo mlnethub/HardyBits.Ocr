@@ -5,7 +5,7 @@ using HardyBits.Wrappers.Leptonica.Imports;
 
 namespace HardyBits.Wrappers.Leptonica
 {
-  public class PixColormap : IDisposable
+  internal class PixColormap : IPixColormap
   {
     private static readonly int[] AcceptedDepths = {1, 2, 4, 8};
 
@@ -29,7 +29,7 @@ namespace HardyBits.Wrappers.Leptonica
 
     public HandleRef Handle { get; private set; }
 
-    public bool AddColor(PixColor color)
+    public bool AddColor(IPixColor color)
     {
       return Leptonica5.pixcmapAddColor(Handle, color.Red, color.Green, color.Blue) == 0;
     }

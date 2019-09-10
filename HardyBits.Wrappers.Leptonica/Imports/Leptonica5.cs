@@ -5,7 +5,7 @@ using HardyBits.Wrappers.Leptonica.Enums;
 
 namespace HardyBits.Wrappers.Leptonica.Imports
 {
-  public static class Leptonica5
+  internal static class Leptonica5
   {
     [DllImport(LibraryNames.Leptonica5, CallingConvention = CallingConvention.Cdecl, EntryPoint = nameof(pixCreate))]
     public static extern IntPtr pixCreate(int width, int height, int depth);
@@ -51,6 +51,9 @@ namespace HardyBits.Wrappers.Leptonica.Imports
 
     [DllImport(LibraryNames.Leptonica5, CallingConvention = CallingConvention.Cdecl, EntryPoint = nameof(findFileFormat))]
     public static extern int findFileFormat(string filename, out ImageFileFormat pformat);
+
+    [DllImport(LibraryNames.Leptonica5, CallingConvention = CallingConvention.Cdecl, EntryPoint = nameof(findFileFormatBuffer))]
+    public static extern unsafe int findFileFormatBuffer(void* buf, out ImageFileFormat pformat);
 
     [DllImport(LibraryNames.Leptonica5, CallingConvention = CallingConvention.Cdecl, EntryPoint = nameof(pixRead))]
     public static extern IntPtr pixRead(string filename);

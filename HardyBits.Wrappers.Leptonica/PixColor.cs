@@ -1,11 +1,10 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Runtime.InteropServices;
 
 namespace HardyBits.Wrappers.Leptonica
 {
   [StructLayout(LayoutKind.Sequential, Pack=1)]
-  public class PixColor : IEquatable<PixColor>
+  internal class PixColor : IPixColor
   {
     private readonly byte red;
     private readonly byte blue;
@@ -30,11 +29,11 @@ namespace HardyBits.Wrappers.Leptonica
       return new PixColor(color.R, color.G, color.B, color.A);
     }
 
-    public bool Equals(PixColor other)
+    public bool Equals(IPixColor other)
     {
       if (ReferenceEquals(null, other)) return false;
       if (ReferenceEquals(this, other)) return true;
-      return red == other.red && blue == other.blue && green == other.green && alpha == other.alpha;
+      return red == other.Red && blue == other.Blue && green == other.Green && alpha == other.Alpha;
     }
 
     public override bool Equals(object obj)
@@ -42,7 +41,7 @@ namespace HardyBits.Wrappers.Leptonica
       if (ReferenceEquals(null, obj)) return false;
       if (ReferenceEquals(this, obj)) return true;
       if (obj.GetType() != GetType()) return false;
-      return Equals((PixColor) obj);
+      return Equals((IPixColor) obj);
     }
 
     public override int GetHashCode()

@@ -38,7 +38,7 @@ namespace HardyBits.Wrappers.Tesseract
       throw new TesseractException("Failed to initialise tesseract engine.");
     }
 
-    public RecognitionResult Process(Pix image)
+    public IRecognitionResult Process(IPix image)
     {
       if (image == null) 
         throw new ArgumentNullException(nameof(image));
@@ -58,9 +58,11 @@ namespace HardyBits.Wrappers.Tesseract
         using var text = Text.Create(() => Tesseract4.TessBaseAPIGetUTF8Text(_handle));
         using var hocrText = Text.Create(() => Tesseract4.TessBaseAPIGetHOCRText(_handle, 0));
 
-        return new RecognitionResult(
-          text: text.ToString(),
-          hocrText: $"{Tags.XhtmlBeginTag}{hocrText}{Tags.XhtmlEndTag}");
+        return new RecognitionResult 
+        { 
+          Text = text.ToString(),
+          HocrText = $"{Tags.XhtmlBeginTag}{hocrText}{Tags.XhtmlEndTag}"
+        };
       }
       finally
       {

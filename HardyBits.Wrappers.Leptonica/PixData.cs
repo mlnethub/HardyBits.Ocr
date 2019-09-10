@@ -3,7 +3,7 @@ using HardyBits.Wrappers.Leptonica.Imports;
 
 namespace HardyBits.Wrappers.Leptonica
 {
-  public class PixData
+  internal class PixData : IPixData
   {
     public PixData(Pix pix)
     {

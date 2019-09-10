@@ -6,12 +6,11 @@ using HardyBits.Wrappers.Leptonica.Imports;
 
 namespace HardyBits.Wrappers.Leptonica
 {
-  public class Pix : IDisposable
+  public class Pix : IPix
   {
     private static readonly int[] AllowedDepths = { 1, 2, 4, 8, 16, 32 };
-    private PixColormap _colormap;
 
-    public Pix(int imageWidth, int imageHeight, int imageDepth)
+    internal Pix(int imageWidth, int imageHeight, int imageDepth)
     {
       if (!AllowedDepths.Contains(imageDepth))
         throw new ArgumentException("Depth must be 1, 2, 4, 8, 16, or 32 bits.", nameof(imageDepth));
@@ -31,13 +30,9 @@ namespace HardyBits.Wrappers.Leptonica
       Width = imageWidth;
       Height = imageHeight;
       Depth = imageDepth;
-
-      var colorMapHandle = Leptonica5.pixGetColormap(Handle);
-      if (colorMapHandle != IntPtr.Zero)
-        _colormap = new PixColormap(colorMapHandle);
     }
 
-    public Pix(string imageFilePath)
+    internal Pix(string imageFilePath)
     {
       if (imageFilePath == null)
         throw new ArgumentNullException(nameof(imageFilePath));
@@ -54,10 +49,6 @@ namespace HardyBits.Wrappers.Leptonica
       Width = Leptonica5.pixGetWidth(Handle);
       Height = Leptonica5.pixGetHeight(Handle);
       Depth = Leptonica5.pixGetDepth(Handle);
-
-      var colorMapHandle = Leptonica5.pixGetColormap(Handle);
-      if (colorMapHandle != IntPtr.Zero)
-        _colormap = new PixColormap(colorMapHandle);
     }
 
     public int Width { get; }
@@ -70,49 +61,30 @@ namespace HardyBits.Wrappers.Leptonica
         throw new ArgumentNullException(nameof(filePath));
 
       return Leptonica5.findFileFormat(filePath, out format) == 0;
-
     }
 
-    public PixColormap Colormap
+    public static unsafe bool IsFileFormatSupported(ReadOnlyMemory<byte> file, out ImageFileFormat format)
     {
-      get => _colormap;
-      set
-      {
-        if (value == null)
-        {
-          if (Leptonica5.pixDestroyColormap(Handle) == 0)
-            _colormap = null;
-        }
-        else
-        {
-          if (Leptonica5.pixSetColormap(Handle, value.Handle) == 0)
-            _colormap = value;
-        }
-      }
+      using var handle = file.Pin();
+      return Leptonica5.findFileFormatBuffer(handle.Pointer, out format) == 0;
     }
 
     public int XRes 
     {
       get => Leptonica5.pixGetXRes(Handle);
-      set => Leptonica5.pixSetXRes(Handle, value);
+      private set => Leptonica5.pixSetXRes(Handle, value);
     }
 
     public int YRes
     {
       get => Leptonica5.pixGetYRes(Handle);
-      set => Leptonica5.pixSetYRes(Handle, value);
+      private set => Leptonica5.pixSetYRes(Handle, value);
     }
 
     public HandleRef Handle { get; private set; }
 
-    public PixData GetData()
-    {
-      return new PixData(this);
-    }
-
     private void ReleaseUnmanagedResources()
     {
-      _colormap?.Dispose();
       var tmpHandle = Handle.Handle;
       Leptonica5.pixDestroy(ref tmpHandle);
       Handle = new HandleRef(this, IntPtr.Zero);

@@ -5,6 +5,6 @@ namespace HardyBits.Wrappers.Tesseract
 {
   public interface ITesseractEngine : IDisposable
   {
-    RecognitionResult Process(Pix image);
+    IRecognitionResult Process(IPix image);
   }
 }

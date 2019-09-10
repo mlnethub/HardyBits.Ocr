@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using HardyBits.Wrappers.Tesseract;
+using HardyBits.Wrappers.Tesseract.Results;
 
 namespace HardyBits.Ocr.Engine
 {
@@ -8,8 +9,6 @@ namespace HardyBits.Ocr.Engine
   {
     int ActiveProcessesCount { get; }
     int WaitingProcessesCount { get; }
-    bool IsImageFormatSupported(ReadOnlyMemory<byte> file);
-    bool IsEngineConfigurationSupported(IEngineConfiguration config);
     Task<IRecognitionResults> RecognizeAsync(IRecognitionConfiguration config);
   }
 }

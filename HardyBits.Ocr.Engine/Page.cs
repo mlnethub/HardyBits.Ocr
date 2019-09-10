@@ -2,7 +2,7 @@
 
 namespace HardyBits.Ocr.Engine
 {
-  internal class Page<T>
+  internal class Page<T> : IDisposable
     where T : class, IDisposable
   {
     public int TotalPages { get; }
@@ -37,6 +37,22 @@ namespace HardyBits.Ocr.Engine
         previousPayload.Dispose();
 
       return this;
+    }
+
+    public Page<TNew> CloneWithNewPayload<TNew>(TNew newPayload)
+      where TNew : class, IDisposable
+    {
+      if (newPayload == null)
+        throw new ArgumentNullException(nameof(newPayload));
+
+      return new Page<TNew>(CurrentPage, TotalPages, newPayload);
+    }
+
+    public void Dispose()
+    {
+      var payload = Payload;
+      Payload = null;
+      payload?.Dispose();
     }
   }
 }

@@ -4,7 +4,9 @@ using System.Threading;
 using HardyBits.Wrappers.Leptonica;
 using HardyBits.Wrappers.Tesseract.Constants;
 using HardyBits.Wrappers.Tesseract.Enums;
+using HardyBits.Wrappers.Tesseract.Exceptions;
 using HardyBits.Wrappers.Tesseract.Imports;
+using HardyBits.Wrappers.Tesseract.Results;
 
 namespace HardyBits.Wrappers.Tesseract
 {

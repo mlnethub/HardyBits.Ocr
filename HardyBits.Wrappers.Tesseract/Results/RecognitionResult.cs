@@ -1,4 +1,4 @@
-﻿namespace HardyBits.Wrappers.Tesseract
+﻿namespace HardyBits.Wrappers.Tesseract.Results
 {
   internal class RecognitionResult : IRecognitionResult
   {

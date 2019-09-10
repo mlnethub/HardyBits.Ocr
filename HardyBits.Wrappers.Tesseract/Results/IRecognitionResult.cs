@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HardyBits.Wrappers.Tesseract
+namespace HardyBits.Wrappers.Tesseract.Results
 {
   public interface IRecognitionResult : IDisposable
   {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace HardyBits.Wrappers.Tesseract
+namespace HardyBits.Wrappers.Tesseract.Results
 {
   public class RecognitionResults : List<IRecognitionResult>, IRecognitionResults
   {

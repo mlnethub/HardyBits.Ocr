@@ -10,11 +10,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\HardyBits.Ocr.Engine\HardyBits.Ocr.Engine.csproj" />
     <ProjectReference Include="..\..\HardyBits.Wrappers.Leptonica\HardyBits.Wrappers.Leptonica.csproj" />
     <ProjectReference Include="..\..\HardyBits.Wrappers.Tesseract\HardyBits.Wrappers.Tesseract.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="multipage_tif_example.tif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="testfile.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

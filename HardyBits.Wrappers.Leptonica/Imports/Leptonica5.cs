@@ -66,5 +66,20 @@ namespace HardyBits.Wrappers.Leptonica.Imports
 
     [DllImport(LibraryNames.Leptonica5, CallingConvention = CallingConvention.Cdecl, EntryPoint = nameof(pixGetDepth))]
     public static extern int pixGetDepth(HandleRef pix);
+
+    [DllImport(LibraryNames.Leptonica5, CallingConvention = CallingConvention.Cdecl, EntryPoint = nameof(pixaReadMemMultipageTiff))]
+    public static extern unsafe IntPtr pixaReadMemMultipageTiff(void* data, int size);
+    
+    [DllImport(LibraryNames.Leptonica5, CallingConvention = CallingConvention.Cdecl, EntryPoint = nameof(pixReadMem))]
+    public static extern unsafe IntPtr pixReadMem(void* data, int size);
+    
+    [DllImport(LibraryNames.Leptonica5, CallingConvention = CallingConvention.Cdecl, EntryPoint = nameof(pixaGetCount))]
+    public static extern int pixaGetCount(IntPtr pixa);
+    
+    [DllImport(LibraryNames.Leptonica5, CallingConvention = CallingConvention.Cdecl, EntryPoint = nameof(pixaGetPix))]
+    public static extern IntPtr pixaGetPix(IntPtr pixa, int index, int accesstype);
+    
+    [DllImport(LibraryNames.Leptonica5, CallingConvention = CallingConvention.Cdecl, EntryPoint = nameof(pixaDestroy))]
+    public static extern void pixaDestroy(ref IntPtr pix);
   }
 }

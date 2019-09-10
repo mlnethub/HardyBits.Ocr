@@ -51,6 +51,17 @@ namespace HardyBits.Wrappers.Leptonica
       Depth = Leptonica5.pixGetDepth(Handle);
     }
 
+    internal Pix(IntPtr handle)
+    {
+      if (handle == IntPtr.Zero)
+        throw new ArgumentNullException(nameof(handle), "Image pointer is null.");
+
+      Handle = new HandleRef(this, handle);
+      Width = Leptonica5.pixGetWidth(Handle);
+      Height = Leptonica5.pixGetHeight(Handle);
+      Depth = Leptonica5.pixGetDepth(Handle);
+    }
+
     public int Width { get; }
     public int Height { get; }
     public int Depth { get; }

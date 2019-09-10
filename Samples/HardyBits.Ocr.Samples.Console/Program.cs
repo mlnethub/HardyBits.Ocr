@@ -1,9 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
+using HardyBits.Ocr.Engine;
 using HardyBits.Wrappers.Leptonica;
-using HardyBits.Wrappers.Tesseract;
-using HardyBits.Wrappers.Tesseract.Enums;
 
 namespace HardyBits.Ocr.Samples.Console
 {
@@ -11,14 +9,18 @@ namespace HardyBits.Ocr.Samples.Console
   {
     public static void Main()
     {
-      const string testImagePath = "testfile.jpg";
+      const string testImagePath = "multipage_tif_example.tif";
       var bytes = File.ReadAllBytes(testImagePath);
+
+      var factory = new PixFactory();
+      var pix = factory.Create(bytes.AsMemory());
+
+      //var engine = new RecognitionEngine();
 
       if(!Pix.IsFileFormatSupported(bytes.AsMemory(), out _))
       {
          System.Console.WriteLine("Image file format not supported.");
          return;
-
       }
 
       //try

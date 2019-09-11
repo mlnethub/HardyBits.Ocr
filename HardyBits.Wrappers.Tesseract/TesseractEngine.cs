@@ -54,7 +54,7 @@ namespace HardyBits.Wrappers.Tesseract
         Tesseract4.TessBaseAPISetPageSegMode(_handle, (int) pageSegMode);
         Tesseract4.TessBaseAPISetImage2(_handle, image.Handle);
 
-        if (Tesseract4.TessBaseAPIRecognize(_handle, new HandleRef(this, IntPtr.Zero)) != 0)
+        if (Tesseract4.TessBaseAPIRecognize(_handle, out var rec) != 0)
           throw new TesseractException("Recognition of image failed.");
 
         using var text = Text.Create(() => Tesseract4.TessBaseAPIGetUTF8Text(_handle));
@@ -63,7 +63,8 @@ namespace HardyBits.Wrappers.Tesseract
         return new RecognitionResult 
         { 
           Text = text.ToString(),
-          HocrText = $"{Tags.XhtmlBeginTag}{hocrText}{Tags.XhtmlEndTag}"
+          HocrText = $"{Tags.XhtmlBeginTag}{hocrText}{Tags.XhtmlEndTag}",
+          Confidence = null
         };
       }
       finally

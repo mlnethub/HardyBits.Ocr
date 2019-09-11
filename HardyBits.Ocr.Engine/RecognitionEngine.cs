@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -22,7 +23,13 @@ namespace HardyBits.Ocr.Engine
 
     private int _activeProcessesCount;
 
-    public RecognitionEngine(IPreprocessorFactory preprocessorFactory, ITesseractEngineFactory tesseractFactory, IPixFactory pixFactory)
+    public RecognitionEngine() : this(
+      new PreprocessorFactory(), 
+      new TesseractEngineFactory(),
+      new PixFactory())
+    { }
+
+    internal RecognitionEngine(IPreprocessorFactory preprocessorFactory, ITesseractEngineFactory tesseractFactory, IPixFactory pixFactory)
     {
       _preprocessorFactory = preprocessorFactory ?? throw new ArgumentNullException(nameof(preprocessorFactory));
       _tesseractFactory = tesseractFactory ?? throw new ArgumentNullException(nameof(tesseractFactory));
@@ -52,10 +59,10 @@ namespace HardyBits.Ocr.Engine
       if (!config.Parameters.TryGetValue<string>("tessdata", out var tessdata) || !Directory.Exists(tessdata))
         return false;
 
-      if (!config.Parameters.TryGetValue<string>("language", out var language) || File.Exists(Path.Combine(tessdata, $"{language}.traineddata")))
+      if (!config.Parameters.TryGetValue<string>("language", out var language) || File.Exists($"tessdata/{language}.traineddata"))
         return false;
 
-      if (!config.Parameters.TryGetValue<string>("mode", out var mode) || Enum.GetNames(typeof(EngineMode)).Any(x => x == mode))
+      if (!config.Parameters.TryGetValue<string>("mode", out var mode) || Enum.GetNames(typeof(EngineMode)).All(x => x != mode))
         return false;
 
       return true;
@@ -84,11 +91,6 @@ namespace HardyBits.Ocr.Engine
       ISourceBlock<Page<IPix>> previousBlock = formatRecognitionBlock;
       foreach (var configuration in config.Preprocessors)
       {
-        var result = configuration.Validate();
-
-        if (!result.IsValid)
-          throw new InvalidOperationException($"Preprocessor ({configuration.Type} {configuration.Method}) configuration is invalid.");
-
         var preprocessor = _preprocessorFactory.Create(configuration);
 
         var transformBlock = new TransformBlock<Page<IPix>, Page<IPix>>(
@@ -100,8 +102,8 @@ namespace HardyBits.Ocr.Engine
 
       var recognitionBlock = new TransformBlock<Page<IPix>, Page<IRecognitionResult>>(page =>
       {
-        var tesseract = _tesseractFactory.Create(
-          config.Engine.Parameters.GetValue<string>("dataPath"),
+        using var tesseract = _tesseractFactory.Create(
+          config.Engine.Parameters.GetValue<string>("tessdata"),
           config.Engine.Parameters.GetValue<string>("language"),
           config.Engine.Parameters.GetValue<EngineMode>("mode"));
 
@@ -111,13 +113,25 @@ namespace HardyBits.Ocr.Engine
         return newPage;
       });
 
-      previousBlock.LinkTo(recognitionBlock);
-      var bufferBlock = new BufferBlock<Page<IRecognitionResult>>();
-
       _cancellation.Token.ThrowIfCancellationRequested();
       var tcs = new TaskCompletionSource<IRecognitionResults>();
-      _cancellation.Token.Register(() => tcs.SetCanceled());
+      _cancellation.Token.Register(() => tcs.TrySetCanceled());
 
+      previousBlock.LinkTo(recognitionBlock);
+      var pages = new ConcurrentDictionary<int, IRecognitionResult>();
+      var bufferBlock = new ActionBlock<Page<IRecognitionResult>>(page =>
+      {
+        pages.AddOrUpdate(page.CurrentPage, page.Payload,
+          (key, __) => throw new InvalidOperationException($"Tried to insert duplicated key {key}."));
+
+        if (pages.Count != page.TotalPages)
+          return;
+
+        var results = new RecognitionResults(pages.Values);
+        tcs.SetResult(results);
+      });
+
+      recognitionBlock.LinkTo(bufferBlock);
       _queueBlock.Post(async () =>
       {
         try
@@ -126,11 +140,6 @@ namespace HardyBits.Ocr.Engine
 
           await formatRecognitionBlock.SendAsync(config.Image);
           formatRecognitionBlock.Complete();
-          await bufferBlock.Completion;
-          bufferBlock.TryReceiveAll(out var result);
-          var results = result.OrderBy(x => x.CurrentPage).Select(x => x.Payload).ToArray();
-          // ToDo: sprawdzenie liczby
-          tcs.SetResult(new RecognitionResults(results));
         }
         catch (Exception ex)
         {
@@ -148,7 +157,6 @@ namespace HardyBits.Ocr.Engine
     public void Dispose()
     {
       _queueBlock.Complete();
-      _cancellation.Cancel();
       _queueBlock.Completion.Wait();
     }
   }

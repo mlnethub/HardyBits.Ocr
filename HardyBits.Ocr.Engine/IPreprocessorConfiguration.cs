@@ -2,6 +2,5 @@
 {
   public interface IPreprocessorConfiguration : IHaveType, IHaveMethod, IHaveParameters
   {
-    IValidationResult Validate();
   }
 }

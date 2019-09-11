@@ -10,8 +10,8 @@ namespace HardyBits.Wrappers.Leptonica
       if (pix == null)
         throw new ArgumentNullException(nameof(pix));
 
-      Data = Leptonica5.pixGetData(pix.Handle);
-      WordsPerLine = Leptonica5.pixGetWpl(pix.Handle);
+      Data = Leptonica5Pix.pixGetData(pix.Handle);
+      WordsPerLine = Leptonica5Pix.pixGetWpl(pix.Handle);
     }
 
     public IntPtr Data { get; }

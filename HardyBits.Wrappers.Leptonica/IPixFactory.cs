@@ -16,7 +16,7 @@ namespace HardyBits.Wrappers.Leptonica
     public unsafe IEnumerable<IPix> Create(ReadOnlyMemory<byte> data)
     {
       using var pointer = data.Pin();
-      if (Leptonica5.findFileFormatBuffer(pointer.Pointer, out var format) != 0)
+      if (Leptonica5Pix.findFileFormatBuffer(pointer.Pointer, out var format) != 0)
         throw new InvalidOperationException("File format not supported.");
 
       var sizeInMemory = sizeof(byte) * data.Length;
@@ -38,7 +38,7 @@ namespace HardyBits.Wrappers.Leptonica
 
     private static unsafe IPix ReadImage(void* pointer, int size)
     {
-      var pixPointer = Leptonica5.pixReadMem(pointer, size);
+      var pixPointer = Leptonica5Pix.pixReadMem(pointer, size);
 
       if (pixPointer == IntPtr.Zero)
         throw new InvalidOperationException("Failed to load image.");
@@ -48,25 +48,25 @@ namespace HardyBits.Wrappers.Leptonica
 
     private static unsafe IEnumerable<IPix> ReadTiff(void* pointer, int size)
     {
-      var pixaPointer = Leptonica5.pixaReadMemMultipageTiff(pointer, size);
+      var pixaPointer = Leptonica5Pix.pixaReadMemMultipageTiff(pointer, size);
       if (pixaPointer == IntPtr.Zero)
         throw new InvalidOperationException("Failed to load image.");
 
       try
       {
-        var pagesCount = Leptonica5.pixaGetCount(pixaPointer);
+        var pagesCount = Leptonica5Pix.pixaGetCount(pixaPointer);
         if (pagesCount <= 0)
           throw new InvalidOperationException("File has no pages.");
 
         return Enumerable.Range(0, pagesCount)
-          .Select(index => new Pix(Leptonica5.pixaGetPix(pixaPointer, index, 2)))
+          .Select(index => new Pix(Leptonica5Pix.pixaGetPix(pixaPointer, index, 2)))
           .ToArray();
 
         // ToDo: failure path
       }
       finally
       {
-        Leptonica5.pixaDestroy(ref pixaPointer);
+        Leptonica5Pix.pixaDestroy(ref pixaPointer);
       }
     }
   }

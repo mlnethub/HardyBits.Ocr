@@ -19,7 +19,7 @@ namespace HardyBits.Wrappers.Leptonica
       if (!AcceptedDepths.Contains(depth))
         throw new ArgumentOutOfRangeException(nameof(depth), "Depth must be 1, 2, 4, or 8 bpp.");
 
-      var handle = Leptonica5.pixcmapCreate(depth);
+      var handle = Leptonica5Pix.pixcmapCreate(depth);
       if (handle == IntPtr.Zero) {
         throw new InvalidOperationException("Failed to create colormap.");
       }
@@ -31,13 +31,13 @@ namespace HardyBits.Wrappers.Leptonica
 
     public bool AddColor(IPixColor color)
     {
-      return Leptonica5.pixcmapAddColor(Handle, color.Red, color.Green, color.Blue) == 0;
+      return Leptonica5Pix.pixcmapAddColor(Handle, color.Red, color.Green, color.Blue) == 0;
     }
 
     private void ReleaseUnmanagedResources()
     {
       var tmpHandle = Handle.Handle;
-      Leptonica5.pixcmapDestroy(ref tmpHandle);
+      Leptonica5Pix.pixcmapDestroy(ref tmpHandle);
       Handle = new HandleRef(this, IntPtr.Zero);
     }
 

@@ -7,10 +7,10 @@
   },
   "engine": {
     "type": "tesseract4",
-    "parameters": {
-      "language": "eng",
-      "mode": "TesseractAndCube"
-    }
+		"parameters": {
+			"language": "eng",
+			"mode": "TesseractLstmCombined"
+		}
   },
   "preprocessors": [
     {

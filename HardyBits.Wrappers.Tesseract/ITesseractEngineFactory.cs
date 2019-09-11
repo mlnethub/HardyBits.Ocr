@@ -6,4 +6,12 @@ namespace HardyBits.Wrappers.Tesseract
   {
     ITesseractEngine Create(string dataPath, string language, EngineMode engineMode);
   }
+
+  public class TesseractEngineFactory : ITesseractEngineFactory
+  {
+    public ITesseractEngine Create(string dataPath, string language, EngineMode engineMode)
+    {
+      return new TesseractEngine(dataPath, language, engineMode);
+    }
+  }
 }

@@ -329,3 +329,4 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 *.DotSettings
+/Samples/HardyBits.Ocr.Samples.Console/ZLECGO_1_IMAG0352.jpg

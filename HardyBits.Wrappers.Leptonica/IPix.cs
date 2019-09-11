@@ -11,5 +11,6 @@ namespace HardyBits.Wrappers.Leptonica
     int XRes { get; }
     int YRes { get; }
     HandleRef Handle { get; }
+    IPix Clone();
   }
 }

@@ -5,7 +5,7 @@ using HardyBits.Wrappers.Leptonica.Enums;
 
 namespace HardyBits.Wrappers.Leptonica.Imports
 {
-  internal static class Leptonica5
+  internal static class Leptonica5Pix
   {
     [DllImport(LibraryNames.Leptonica5, CallingConvention = CallingConvention.Cdecl, EntryPoint = nameof(pixCreate))]
     public static extern IntPtr pixCreate(int width, int height, int depth);
@@ -81,5 +81,14 @@ namespace HardyBits.Wrappers.Leptonica.Imports
     
     [DllImport(LibraryNames.Leptonica5, CallingConvention = CallingConvention.Cdecl, EntryPoint = nameof(pixaDestroy))]
     public static extern void pixaDestroy(ref IntPtr pix);
+
+    [DllImport(LibraryNames.Leptonica5, CallingConvention = CallingConvention.Cdecl, EntryPoint = nameof(pixClone))]
+    public static extern IntPtr pixClone(HandleRef pixs);
+  }
+
+  internal static class Leptonica5Filters
+  {
+    [DllImport(LibraryNames.Leptonica5, CallingConvention = CallingConvention.Cdecl, EntryPoint = nameof(pixFindSkewAndDeskew))]
+    public static extern IntPtr pixFindSkewAndDeskew(HandleRef pixs, int redsearch, out float pangle, out float pconf);
   }
 }

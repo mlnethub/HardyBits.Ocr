@@ -14,7 +14,7 @@ namespace HardyBits.Ocr.Engine
       if (totalPages <= 0)
         throw new ArgumentException("Total pages must have value higher than 0.");
 
-      if (currentPage >= 0)
+      if (currentPage < 0)
         throw new ArgumentException("Current page must have value higher or equal to 0.");
 
       if (currentPage >= totalPages)

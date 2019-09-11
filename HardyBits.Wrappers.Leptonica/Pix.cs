@@ -21,7 +21,7 @@ namespace HardyBits.Wrappers.Leptonica
       if (imageHeight <= 0) 
         throw new ArgumentException("Height must be greater than zero", nameof(imageHeight));
 
-      var handle = Leptonica5.pixCreate(imageWidth, imageHeight, imageDepth);
+      var handle = Leptonica5Pix.pixCreate(imageWidth, imageHeight, imageDepth);
       if (handle == IntPtr.Zero) 
         throw new InvalidOperationException("Failed to create leptonica pix.");
 
@@ -40,15 +40,15 @@ namespace HardyBits.Wrappers.Leptonica
       if (!IsFileFormatSupported(imageFilePath, out _))
         throw new ArgumentException("File format not supported or not recognized.", nameof(imageFilePath));
 
-      var handle = Leptonica5.pixRead(imageFilePath);
+      var handle = Leptonica5Pix.pixRead(imageFilePath);
       if (handle == IntPtr.Zero) 
         throw new InvalidOperationException("Failed to read file.");
 
       Handle = new HandleRef(this, handle);
 
-      Width = Leptonica5.pixGetWidth(Handle);
-      Height = Leptonica5.pixGetHeight(Handle);
-      Depth = Leptonica5.pixGetDepth(Handle);
+      Width = Leptonica5Pix.pixGetWidth(Handle);
+      Height = Leptonica5Pix.pixGetHeight(Handle);
+      Depth = Leptonica5Pix.pixGetDepth(Handle);
     }
 
     internal Pix(IntPtr handle)
@@ -57,9 +57,9 @@ namespace HardyBits.Wrappers.Leptonica
         throw new ArgumentNullException(nameof(handle), "Image pointer is null.");
 
       Handle = new HandleRef(this, handle);
-      Width = Leptonica5.pixGetWidth(Handle);
-      Height = Leptonica5.pixGetHeight(Handle);
-      Depth = Leptonica5.pixGetDepth(Handle);
+      Width = Leptonica5Pix.pixGetWidth(Handle);
+      Height = Leptonica5Pix.pixGetHeight(Handle);
+      Depth = Leptonica5Pix.pixGetDepth(Handle);
     }
 
     public int Width { get; }
@@ -71,33 +71,43 @@ namespace HardyBits.Wrappers.Leptonica
       if (filePath == null)
         throw new ArgumentNullException(nameof(filePath));
 
-      return Leptonica5.findFileFormat(filePath, out format) == 0;
+      return Leptonica5Pix.findFileFormat(filePath, out format) == 0;
     }
 
     public static unsafe bool IsFileFormatSupported(ReadOnlyMemory<byte> file, out ImageFileFormat format)
     {
       using var handle = file.Pin();
-      return Leptonica5.findFileFormatBuffer(handle.Pointer, out format) == 0;
+      return Leptonica5Pix.findFileFormatBuffer(handle.Pointer, out format) == 0;
     }
 
     public int XRes 
     {
-      get => Leptonica5.pixGetXRes(Handle);
-      private set => Leptonica5.pixSetXRes(Handle, value);
+      get => Leptonica5Pix.pixGetXRes(Handle);
+      private set => Leptonica5Pix.pixSetXRes(Handle, value);
     }
 
     public int YRes
     {
-      get => Leptonica5.pixGetYRes(Handle);
-      private set => Leptonica5.pixSetYRes(Handle, value);
+      get => Leptonica5Pix.pixGetYRes(Handle);
+      private set => Leptonica5Pix.pixSetYRes(Handle, value);
     }
 
     public HandleRef Handle { get; private set; }
 
+    public IPix Clone()
+    {
+      var clonePointer = Leptonica5Pix.pixClone(Handle);
+
+      if (clonePointer == IntPtr.Zero)
+        throw new InvalidOperationException("Failed to clone pix.");
+
+      return new Pix(clonePointer);
+    }
+
     private void ReleaseUnmanagedResources()
     {
       var tmpHandle = Handle.Handle;
-      Leptonica5.pixDestroy(ref tmpHandle);
+      Leptonica5Pix.pixDestroy(ref tmpHandle);
       Handle = new HandleRef(this, IntPtr.Zero);
     }
 

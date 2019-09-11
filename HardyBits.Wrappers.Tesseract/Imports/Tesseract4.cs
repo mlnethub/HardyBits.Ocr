@@ -31,7 +31,7 @@ namespace HardyBits.Wrappers.Tesseract.Imports
     public static extern int TessBaseAPIRecognize(HandleRef handle, HandleRef monitor);
 
     [DllImport(LibraryNames.Tesseract4, CallingConvention = CallingConvention.Cdecl, EntryPoint = nameof(TessBaseAPIRecognize))]
-    public static extern int TessBaseAPIRecognize(HandleRef handle, ETEXT_DESC monitor);
+    public static extern int TessBaseAPIRecognize(HandleRef handle, out ETEXT_DESC monitor);
     
     [DllImport(LibraryNames.Tesseract4, CallingConvention = CallingConvention.Cdecl, EntryPoint = nameof(TessBaseAPIGetHOCRText))]
     public static extern IntPtr TessBaseAPIGetHOCRText(HandleRef handle, int page_number);
